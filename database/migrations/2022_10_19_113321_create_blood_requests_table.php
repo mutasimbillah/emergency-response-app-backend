@@ -13,17 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('blood_requests', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('phone')->unique();
-            $table->timestamp('phone_verified_at');
-            $table->string('blood_group');
             $table->unsignedBigInteger('division_id');
             $table->unsignedBigInteger('district_id');
             $table->unsignedBigInteger('upazila_id');
-            $table->timestamp('last_donation')->nullable();
-            $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('division_id')->references('id')->on('divisions');
@@ -39,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('blood_requests');
     }
 };

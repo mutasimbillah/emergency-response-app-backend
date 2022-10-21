@@ -27,9 +27,12 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         return [
+            'phone' => 'required|string|min:11|max:11',
             'name'  => 'required|string|max:255',
             'blood_group'  => ['required', new Enum(BloodType::class)],
-            'phone' => 'required|string|min:11|max:11',
+            'division_id' => 'required|int',
+            'district_id' => 'required|int',
+            'upazila_id' => 'required|int',
         ];
     }
 }

@@ -18,9 +18,17 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('phone');
             $table->string('blood_group')->nullable();
+            $table->unsignedBigInteger('division_id')->nullable();
+            $table->unsignedBigInteger('district_id')->nullable();
+            $table->unsignedBigInteger('upazila_id')->nullable();
             $table->string('otp');
             $table->softDeletes();
             $table->timestamps();
+
+            $table->foreign('division_id')->references('id')->on('divisions');
+            $table->foreign('district_id')->references('id')->on('districts');
+            $table->foreign('upazila_id')->references('id')->on('upazilas');
+
         });
     }
 

@@ -6,7 +6,10 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\OtpRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Models\District;
+use App\Models\Division;
 use App\Models\Otp;
+use App\Models\Upazila;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -16,6 +19,11 @@ class AuthController extends ApiController
     public function register(RegisterRequest $request) {
         //
         $data = $request->validated();
+        //check if exist
+        Division::findOrFail($data['division_id']);
+        District::findOrFail($data['district_id']);
+        Upazila::findOrFail($data['upazila_id']);
+        //
         $user = User::where('phone', $request['phone'])->first();
         if ($user) {
             return $this->failed(null, "This phone number has already been taken.");
@@ -58,7 +66,6 @@ class AuthController extends ApiController
         //if user exists
         $user = User::where('phone', $data['phone'])->first();
         if ($user) {
-            $data['blood_group'] = $otp['blood_group'];
             $otp->delete();
             $user->save();
             return $this->respondWithToken(
@@ -68,6 +75,9 @@ class AuthController extends ApiController
             $data['name'] = $otp['name'];
             $data['blood_group'] = $otp['blood_group'];
             $data['phone_verified_at'] = now();
+            $data['division_id'] = $otp['division_id'];
+            $data['district_id'] = $otp['district_id'];
+            $data['upazila_id'] = $otp['upazila_id'];
             $user = User::create($data);
             $otp->delete();
             return $this->respondWithToken(
@@ -83,7 +93,6 @@ class AuthController extends ApiController
     //TODO invoke token
     public function logout(Request $request) {
         $request->user()->currentAccessToken()->delete();
-        //return response()->json(array('message' => 'Successfully logged out'));
         return $this->success(null,'Successfully logged out');
     }
 
