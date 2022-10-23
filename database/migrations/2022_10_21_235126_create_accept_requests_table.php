@@ -15,7 +15,13 @@ return new class extends Migration
     {
         Schema::create('accept_requests', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('donner_id');
+            $table->unsignedBigInteger('recipient_id');
+            $table->softDeletes();
             $table->timestamps();
+
+            $table->foreign('donner_id')->references('id')->on('users');
+            $table->foreign('recipient_id')->references('id')->on('users');
         });
     }
 

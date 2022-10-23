@@ -18,11 +18,11 @@ class AuthController extends ApiController
     //
     public function register(RegisterRequest $request) {
         //
-        $data = $request->validated();
+        $validated = $request->validated();
         //check if exist
-        Division::findOrFail($data['division_id']);
-        District::findOrFail($data['district_id']);
-        Upazila::findOrFail($data['upazila_id']);
+        Division::findOrFail($validated['division_id']);
+        District::findOrFail($validated['district_id']);
+        Upazila::findOrFail($validated['upazila_id']);
         //
         $user = User::where('phone', $request['phone'])->first();
         if ($user) {
@@ -31,40 +31,40 @@ class AuthController extends ApiController
         //Delete Old OPTS
         Otp::where($request->only('phone'))->delete();
         $otp = random_int(1000, 9999);
-        $data['otp'] = $otp;
-        $data = Otp::create($data);
+        $validated['otp'] = $otp;
+        $validated = Otp::create($validated);
 
         return $this->success(null, "OTP created for 60 Seconds");
     }
 
     public function login(LoginRequest $request) {
-        $data = $request->validated();
-        $user = User::where('phone', $data['phone'])->first();
+        $validated = $request->validated();
+        $user = User::where('phone', $validated['phone'])->first();
         if (!$user) {
             return $this->failed(null, "No User Found with the mobile number");
         }
         //Delete Old OPTS
         Otp::where($request->only('phone'))->delete();
         $otp = random_int(1000, 9999);
-        $data['otp'] = $otp;
-        $data = Otp::create($data);
+        $validated['otp'] = $otp;
+        $validated = Otp::create($validated);
         //TODO remove otp after 60
         return $this->success(null, "OTP created for 60 Seconds");
     }
 
     public function verifyOtp(OtpRequest $request) {
         //
-        $data = $request->validated();
+        $validated = $request->validated();
         $otp = Otp::where($request->only('phone'))->latest()->first();
         if (!$otp) {
             return $this->failed(null, "No user Found with the mobile number");
         }
-        if ($data['otp'] != $otp['otp'] && $data['otp'] != '5555') {
+        if ($validated['otp'] != $otp['otp'] && $validated['otp'] != '5555') {
             return $this->failed(null, "Otp did not match");
         }
         
         //if user exists
-        $user = User::where('phone', $data['phone'])->first();
+        $user = User::where('phone', $validated['phone'])->first();
         if ($user) {
             $otp->delete();
             $user->save();
@@ -72,13 +72,13 @@ class AuthController extends ApiController
                 $user->createToken($request->phone)->plainTextToken
             );
         } else {
-            $data['name'] = $otp['name'];
-            $data['blood_group'] = $otp['blood_group'];
-            $data['phone_verified_at'] = now();
-            $data['division_id'] = $otp['division_id'];
-            $data['district_id'] = $otp['district_id'];
-            $data['upazila_id'] = $otp['upazila_id'];
-            $user = User::create($data);
+            $validated['name'] = $otp['name'];
+            $validated['blood_group'] = $otp['blood_group'];
+            $validated['phone_verified_at'] = now();
+            $validated['division_id'] = $otp['division_id'];
+            $validated['district_id'] = $otp['district_id'];
+            $validated['upazila_id'] = $otp['upazila_id'];
+            $user = User::create($validated);
             $otp->delete();
             return $this->respondWithToken(
                 $user->createToken($request->phone)->plainTextToken
