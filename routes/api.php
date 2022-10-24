@@ -3,8 +3,6 @@
 use App\Events\NewMessage;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BloodRequestController;
-use App\Models\BloodRequest;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
