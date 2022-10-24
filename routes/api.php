@@ -1,6 +1,9 @@
 <?php
 
+use App\Events\NewMessage;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BloodRequestController;
+use App\Models\BloodRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,13 +19,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/test', function () {
+    event(new NewMessage('This is our first msg'));
     return now();
 });
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
-Route::post('/verify-otp', [AuthController::class, 'verifyOtp']);
+Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
+Route::post('verify-otp', [AuthController::class, 'verifyOtp']);
 
 Route::group(array('middleware' => array('auth:sanctum')), function () {
-    Route::get('/user', array(AuthController::class, 'userDetails'));
-    Route::post('/logout', array(AuthController::class, 'logout'));
+    Route::get('user', array(AuthController::class, 'userDetails'));
+    Route::apiResource('blood', BloodRequestController::class);
+    Route::post('logout', array(AuthController::class, 'logout'));
 });

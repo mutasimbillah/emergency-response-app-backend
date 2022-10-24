@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewMessage;
+use App\Http\Requests\CreateBloodRequest;
 use App\Http\Resources\BloodRequestResource;
 use App\Models\BloodRequest;
 use Illuminate\Http\Request;
@@ -17,6 +19,7 @@ class BloodRequestController extends ApiController
     {
         //
         $bloodRequests = BloodRequest::all();
+        
         return $this->success(
             BloodRequestResource::collection($bloodRequests)
         );
@@ -28,9 +31,16 @@ class BloodRequestController extends ApiController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateBloodRequest $request)
     {
         //
+        $validated = $request->validated();
+        //TODO check if Exist
+        $bloodRequest = BloodRequest::create($validated);
+        return $this->success(
+            BloodRequestResource::make($bloodRequest), 
+            "A request has been created"
+        );
     }
 
     /**
@@ -39,9 +49,12 @@ class BloodRequestController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(BloodRequest $bloodRequest)
     {
         //
+        return $this->success(
+            BloodRequestResource::make($bloodRequest)
+        );
     }
 
     /**

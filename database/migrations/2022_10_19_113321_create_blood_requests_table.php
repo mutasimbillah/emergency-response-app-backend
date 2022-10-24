@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('hospital');
             $table->string('contact_name');
             $table->string('contact_phone');
-            $table->int('required_bag');
+            $table->integer('required_bag');
             $table->timestamp('donation_date');
             $table->string('reference')->nullable();
             $table->string('reason')->nullable();

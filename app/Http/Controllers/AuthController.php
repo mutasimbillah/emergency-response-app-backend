@@ -32,9 +32,9 @@ class AuthController extends ApiController
         Otp::where($request->only('phone'))->delete();
         $otp = random_int(1000, 9999);
         $validated['otp'] = $otp;
-        $validated = Otp::create($validated);
-
-        return $this->success(null, "OTP created for 60 Seconds");
+        Otp::create($validated);
+        //TODO remove otp after 10 minute
+        return $this->success(null, "OTP created for 10 minute");
     }
 
     public function login(LoginRequest $request) {
@@ -47,9 +47,9 @@ class AuthController extends ApiController
         Otp::where($request->only('phone'))->delete();
         $otp = random_int(1000, 9999);
         $validated['otp'] = $otp;
-        $validated = Otp::create($validated);
-        //TODO remove otp after 60
-        return $this->success(null, "OTP created for 60 Seconds");
+        Otp::create($validated);
+        //TODO remove otp after 10 minute
+        return $this->success(null, "OTP created for 10 minute");
     }
 
     public function verifyOtp(OtpRequest $request) {
@@ -67,7 +67,7 @@ class AuthController extends ApiController
         $user = User::where('phone', $validated['phone'])->first();
         if ($user) {
             $otp->delete();
-            $user->save();
+            //
             return $this->respondWithToken(
                 $user->createToken($request->phone)->plainTextToken
             );
