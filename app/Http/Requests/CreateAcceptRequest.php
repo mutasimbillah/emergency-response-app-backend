@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginRequest extends FormRequest {
+class CreateAcceptRequest extends FormRequest {
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -22,7 +22,9 @@ class LoginRequest extends FormRequest {
     public function rules() {
         return [
             //
-            'phone' => 'required|string|min:11|max:11',
+            'blood_request_id' => 'required|int',
+            'donner_id'        => 'required|int',
+            'recipient_id'     => 'required|int',
         ];
     }
 }

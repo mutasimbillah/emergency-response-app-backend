@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class AcceptRequest extends Model
-{
+class AcceptRequest extends Model {
+    //
     use HasFactory, SoftDeletes;
+    protected $guarded = [];
 }
