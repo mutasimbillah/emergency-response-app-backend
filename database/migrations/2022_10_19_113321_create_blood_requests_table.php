@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('hospital');
             $table->string('contact_name');
             $table->string('contact_phone');
+            $table->string('blood_group');
             $table->integer('required_bag');
             $table->timestamp('donation_date');
             $table->string('reference')->nullable();
@@ -34,7 +35,6 @@ return new class extends Migration
             $table->foreign('district_id')->references('id')->on('districts');
             $table->foreign('upazila_id')->references('id')->on('upazilas');
             $table->foreign('user_id')->references('id')->on('users');
-
         });
     }
 

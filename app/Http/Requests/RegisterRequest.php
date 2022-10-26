@@ -4,16 +4,18 @@ namespace App\Http\Requests;
 
 use App\Enums\BloodType;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
+//use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 
-class RegisterRequest extends FormRequest {
+class RegisterRequest extends FormRequest
+{
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize() {
+    public function authorize()
+    {
         return true;
     }
 
@@ -22,7 +24,8 @@ class RegisterRequest extends FormRequest {
      *
      * @return array<string, mixed>
      */
-    public function rules() {
+    public function rules()
+    {
         return [
             'phone'       => 'required|string|min:11|max:11',
             'name'        => 'required|string|max:255',

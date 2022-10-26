@@ -5,15 +5,15 @@ namespace App\Enums;
 enum BloodType: string
 {
 
-    case APOSITIVE = 'A+';
-    case ANEGATIVE = 'A-';
+    case APOSITIVE = 'A Positive';
+    case ANEGATIVE = 'A Negative';
         //
-    case BPOSITIVE = 'B+';
-    case BNEGATIVE = 'B-';
+    case BPOSITIVE = 'B Positive';
+    case BNEGATIVE = 'B Negative';
         //
-    case OPOSITIVE = 'O+';
-    case ONEGATIVE = 'O-';
+    case OPOSITIVE = 'O Positive';
+    case ONEGATIVE = 'O Negative';
         //
-    case ABPOSITIVE = 'AB+';
-    case ABNEGATIVE = 'AB-';
+    case ABPOSITIVE = 'AB Positive';
+    case ABNEGATIVE = 'AB Negative';
 }

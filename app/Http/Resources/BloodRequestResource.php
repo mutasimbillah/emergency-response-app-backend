@@ -23,6 +23,7 @@ class BloodRequestResource extends JsonResource
             'hospital'    => $this->resource->hospital,
             'contact_person'    => $this->resource->contact_name,
             'contact_phone'    => $this->resource->contact_phone,
+            'blood_group'    => $this->resource->blood_group,
             'required_bag'    => $this->resource->required_bag,
             'donation_date'    => $this->resource->donation_date,
             'reference'    => $this->resource->reference,
